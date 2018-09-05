@@ -3,7 +3,7 @@
 import socket
 
 HOST = "0.0.0.0"
-PORT = 8888
+PORT = 80
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
