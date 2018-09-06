@@ -29,10 +29,27 @@ Hello, World!
 
 while True:
     conn, addr = s.accept()
+    nl = False
+    he = False
     while True:
-        req = conn.recv(1024)
-        print(req)
-        if req.strip() == b"":
+        if he:
             break
+        buf = conn.recv(1024)
+        print("< {}".format(buf))
+        if not buf.strip():
+            print("* Empty message recieved")
+            break
+        for c in buf:
+            if c == 13:
+                pass
+            elif c == 10:
+                if nl:
+                    he = True
+                    print("* Two consecutive new lines indicate end of header")
+                    break;
+                nl = True
+            else:
+                nl = False
+
     conn.sendall(res.encode("utf-8"))
     conn.close()
