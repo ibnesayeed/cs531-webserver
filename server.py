@@ -51,5 +51,5 @@ while True:
             else:
                 nl = False
 
-    conn.sendall(res.encode("utf-8"))
+    conn.sendall(res.replace("\n", "\r\n").encode("utf-8"))
     conn.close()
