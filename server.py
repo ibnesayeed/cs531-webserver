@@ -44,7 +44,7 @@ while True:
             else:
                 nl = False
 
-    payload = b"".join(data)
+    payload = b"".join(data).decode()
     res = f"HTTP/1.1 200 OK\r\nContent-Type: message/http\r\nServer: Echo Server\r\nContent-Length: {len(payload)}\r\nConnection: close\r\n\r\n{payload}"
-    conn.sendall(res)
+    conn.sendall(res.encode())
     conn.close()
