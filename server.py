@@ -16,7 +16,7 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((HOST, PORT))
 s.listen(1)
 
-print(f"Listening on {HOST}:{PORT} for HTTP connectiosns")
+print(f"Listening on {HOST}:{PORT} for HTTP connectiosns\n")
 
 while True:
     conn, addr = s.accept()
@@ -28,7 +28,7 @@ while True:
             break
         buf = conn.recv(1024)
         data.append(buf)
-        print(f"* Reading data from the socket")
+        print(f"< Reading data from the socket")
         if not buf.strip():
             print("* Empty message recieved")
             break
@@ -45,7 +45,7 @@ while True:
                 nl = False
 
     payload = b"".join(data).decode()
-    print(f"* Echoing back {len(payload)} bytes of request as payload")
+    print(f"> Echoing back {len(payload)} bytes of request as payload\n")
     res = f"HTTP/1.1 200 OK\r\nContent-Type: message/http\r\nServer: Echo Server\r\nContent-Length: {len(payload)}\r\nConnection: close\r\n\r\n{payload}"
     conn.sendall(res.encode())
     conn.close()
