@@ -16,26 +16,19 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind((HOST, PORT))
 s.listen(1)
 
-print("Listening on {}:{} for HTTP connectiosns".format(HOST, PORT))
-
-res = """\
-HTTP/1.1 200 OK
-Content-Type: text/plain
-Content-Length: 14
-Connection: close
-
-Hello, World!
-"""
+print(f"Listening on {HOST}:{PORT} for HTTP connectiosns")
 
 while True:
     conn, addr = s.accept()
     nl = False
     he = False
+    data = []
     while True:
         if he:
             break
         buf = conn.recv(1024)
-        print(f"< {buf.decode()}")
+        data.append(buf)
+        print(f"* Reading data from the socket")
         if not buf.strip():
             print("* Empty message recieved")
             break
@@ -51,5 +44,7 @@ while True:
             else:
                 nl = False
 
-    conn.sendall(res.replace("\n", "\r\n").encode("utf-8"))
+    payload = b"".join(data)
+    res = f"HTTP/1.1 200 OK\r\nContent-Type: message/http\r\nServer: Echo Server\r\nContent-Length: {len(payload)}\r\nConnection: close\r\n\r\n{payload}"
+    conn.sendall(res)
     conn.close()
