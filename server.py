@@ -35,7 +35,7 @@ while True:
         if he:
             break
         buf = conn.recv(1024)
-        print("< {}".format(buf))
+        print(f"< {buf.decode()}")
         if not buf.strip():
             print("* Empty message recieved")
             break
