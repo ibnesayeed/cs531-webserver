@@ -45,6 +45,7 @@ while True:
                 nl = False
 
     payload = b"".join(data).decode()
+    print(f"* Echoing back {len(payload) bytes of request as payload}")
     res = f"HTTP/1.1 200 OK\r\nContent-Type: message/http\r\nServer: Echo Server\r\nContent-Length: {len(payload)}\r\nConnection: close\r\n\r\n{payload}"
     conn.sendall(res.encode())
     conn.close()
